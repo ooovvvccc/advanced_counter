@@ -25,11 +25,13 @@ class CounterPage extends StatefulWidget {
 class _CounterPageState extends State<CounterPage> {
   int _counter = 0;
   bool _isEven = false;
+  bool _isPositive = true;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
       _isEven = _counter % 2 == 0;
+      _isPositive = _counter >= 0;
     });
   }
 
@@ -37,6 +39,7 @@ class _CounterPageState extends State<CounterPage> {
     setState(() {
       _counter--;
       _isEven = _counter % 2 == 0;
+      _isPositive = _counter >= 0;
     });
   }
 
@@ -44,6 +47,7 @@ class _CounterPageState extends State<CounterPage> {
     setState(() {
       _counter = 0;
       _isEven = false;
+      _isPositive = true;
     });
   }
 
@@ -66,14 +70,18 @@ class _CounterPageState extends State<CounterPage> {
               style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _incrementCounter,
-              child: Text('Increment'),
-            ),
-            SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: _decrementCounter,
-              child: Text('Decrement'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: _decrementCounter,
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: _incrementCounter,
+                ),
+              ],
             ),
             SizedBox(height: 12),
             ElevatedButton(
@@ -96,6 +104,26 @@ class _CounterPageState extends State<CounterPage> {
                   _isEven ? 'Even Container' : 'Odd Container',
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
+              ),
+            ),
+            SizedBox(height: 24),
+            Text(
+              _isPositive ? 'Counter is Positive' : 'Counter is Negative',
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 24),
+            Visibility(
+              visible: _isPositive,
+              child: Text(
+                'Positive Counter Widget',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+            Visibility(
+              visible: !_isPositive,
+              child: Text(
+                'Negative Counter Widget',
+                style: TextStyle(fontSize: 24),
               ),
             ),
           ],
